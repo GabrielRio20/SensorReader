@@ -22,9 +22,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private Sensor sensorLight;
     private Sensor sensorProximity;
+    private Sensor sensorTemprature;
+    private Sensor sensorAccelerometer;
+    private Sensor sensorGyroscope;
 
     private TextView textSensorLight;
     private TextView textSensorProximity;
+    private TextView textSensorTemprature;
+    private TextView textSensorAccelerometer;
+    private TextView textSensorGyroscope;
 
     ScrollView scrollView;
 
@@ -52,16 +58,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         textSensorLight = findViewById(R.id.label_light);
         textSensorProximity = findViewById(R.id.label_proximity);
+        textSensorTemprature = findViewById(R.id.label_ambient_temp);
+        textSensorAccelerometer = findViewById(R.id.label_accelerometer);
+        textSensorGyroscope = findViewById(R.id.label_gyroscope);
 
         sensorLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         sensorProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sensorTemprature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorGyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         String sensor_error = "No sensor";
-        if (sensorLight == null){
+        if(sensorLight == null){
             textSensorLight.setText(sensor_error);
         }
         if(sensorProximity == null){
             textSensorProximity.setText(sensor_error);
+        }
+        if(sensorTemprature == null){
+            textSensorTemprature.setText(sensor_error);
+        }
+        if(sensorAccelerometer == null){
+            textSensorAccelerometer.setText(sensor_error);
+        }
+        if(sensorGyroscope == null){
+            textSensorGyroscope.setText(sensor_error);
         }
     }
 
@@ -69,12 +90,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //register sensor terlebih dahulu
     protected void onStart() {
         super.onStart();
+        if (sensorLight != null){
+            sensorManager.registerListener(this, sensorLight,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
         if (sensorProximity != null){
             sensorManager.registerListener(this, sensorProximity,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
-        if (sensorLight != null){
-            sensorManager.registerListener(this, sensorLight,
+        if (sensorTemprature != null){
+            sensorManager.registerListener(this, sensorTemprature,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        if (sensorAccelerometer != null){
+            sensorManager.registerListener(this, sensorAccelerometer,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        if (sensorGyroscope != null){
+            sensorManager.registerListener(this, sensorGyroscope,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
@@ -98,6 +131,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_PROXIMITY:
                 textSensorProximity.setText(String.format("Proximity sensor : %1$.2f", currentValue));
+                break;
+            case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                textSensorTemprature.setText(String.format("Ambient Temperature sensor : %1$.2f", currentValue));
+                break;
+            case Sensor.TYPE_ACCELEROMETER:
+                textSensorAccelerometer.setText(String.format("Accelerometer sensor : %1$.2f", currentValue));
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+                textSensorGyroscope.setText(String.format("Relative gyroscope sensor : %1$.2f", currentValue));
                 break;
             default:
         }
