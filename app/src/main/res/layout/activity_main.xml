@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/constraintLayout">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/label_proximity"
-                android:text="Light sensor : %1$.2f"/>
+                android:text="Proximity sensor : %1$.2f"
+                android:layout_marginBottom="30dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

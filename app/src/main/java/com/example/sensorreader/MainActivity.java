@@ -1,13 +1,16 @@
 package com.example.sensorreader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,11 +20,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     SensorManager sensorManager;
 
-    private Sensor sensorProximity;
     private Sensor sensorLight;
-    
+    private Sensor sensorProximity;
+
     private TextView textSensorLight;
     private TextView textSensorProximity;
+
+    ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (sensorType){
             case Sensor.TYPE_LIGHT:
                 textSensorLight.setText(String.format("Light sensor : %1$.2f", currentValue));
+                changeBgColor(currentValue);
                 break;
             case Sensor.TYPE_PROXIMITY:
                 textSensorProximity.setText(String.format("Proximity sensor : %1$.2f", currentValue));
@@ -100,5 +106,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    private void changeBgColor(float value){
+        ConstraintLayout layout = findViewById(R.id.constraintLayout);
+        if (value > 20 && value <= 10000){
+            layout.setBackgroundColor(Color.CYAN);
+        }
+        else if (value > 10000 && value <= 30000){
+            layout.setBackgroundColor(Color.YELLOW);
+        }
+        else if (value > 30000){
+            layout.setBackgroundColor(Color.RED);
+        }
     }
 }
